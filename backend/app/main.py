@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import resumes
+from app.routers import job_postings, resumes
 from app.services.embeddings import get_embedding_model
 
 _model_ready = False
@@ -35,3 +35,4 @@ def health():
 
 
 app.include_router(resumes.router)
+app.include_router(job_postings.router)
