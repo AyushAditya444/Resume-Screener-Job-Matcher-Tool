@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import JobSeekerPage from './pages/JobSeekerPage';
 
 function RequireAuth({ children }: { children: ReactNode }) {
   const { session, loading } = useAuth();
@@ -24,7 +25,7 @@ export default function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route
             path="/job-seeker"
-            element={<RequireAuth><Placeholder label="Job Seeker" /></RequireAuth>}
+            element={<RequireAuth><JobSeekerPage /></RequireAuth>}
           />
           <Route
             path="/recruiter"
