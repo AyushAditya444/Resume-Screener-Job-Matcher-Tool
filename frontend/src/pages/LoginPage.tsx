@@ -12,12 +12,12 @@ export default function LoginPage() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const { error } = await signIn(email, password);
+    const { error, role } = await signIn(email, password);
     if (error) {
       setError(error);
       return;
     }
-    navigate('/job-seeker');
+    navigate(role === 'recruiter' ? '/recruiter' : '/job-seeker');
   }
 
   return (
