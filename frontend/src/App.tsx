@@ -1,4 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import type { ReactNode } from 'react';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+
+function RequireAuth({ children }: { children: ReactNode }) {
+  const { session, loading } = useAuth();
+  if (loading) return <p>Loading...</p>;
+  if (!session) return <Navigate to="/login" replace />;
+  return children;
+}
 
 function Placeholder({ label }: { label: string }) {
   return <div>{label}</div>;
@@ -6,13 +17,22 @@ function Placeholder({ label }: { label: string }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Placeholder label="Login" />} />
-        <Route path="/job-seeker" element={<Placeholder label="Job Seeker" />} />
-        <Route path="/recruiter" element={<Placeholder label="Recruiter" />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route
+            path="/job-seeker"
+            element={<RequireAuth><Placeholder label="Job Seeker" /></RequireAuth>}
+          />
+          <Route
+            path="/recruiter"
+            element={<RequireAuth><Placeholder label="Recruiter" /></RequireAuth>}
+          />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
