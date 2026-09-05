@@ -5,16 +5,13 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import JobSeekerPage from './pages/JobSeekerPage';
 import JobSeekerHistoryPage from './pages/JobSeekerHistoryPage';
+import RecruiterPage from './pages/RecruiterPage';
 
 function RequireAuth({ children }: { children: ReactNode }) {
   const { session, loading } = useAuth();
   if (loading) return <p>Loading...</p>;
   if (!session) return <Navigate to="/login" replace />;
   return children;
-}
-
-function Placeholder({ label }: { label: string }) {
-  return <div>{label}</div>;
 }
 
 export default function App() {
@@ -34,7 +31,7 @@ export default function App() {
           />
           <Route
             path="/recruiter"
-            element={<RequireAuth><Placeholder label="Recruiter" /></RequireAuth>}
+            element={<RequireAuth><RecruiterPage /></RequireAuth>}
           />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
