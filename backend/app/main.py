@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.routers import resumes
 from app.services.embeddings import get_embedding_model
 
 _model_ready = False
@@ -31,3 +32,6 @@ app.add_middleware(
 @app.get("/health")
 def health():
     return {"status": "ok" if _model_ready else "starting"}
+
+
+app.include_router(resumes.router)
